@@ -1,0 +1,36 @@
+
+# PYTHON ENVIRONMENT & CACHE
+
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+
+# IDE CONFIGS
+
+.idea/
+.vscode/
+
+
+# DATA & OUTPUT DIRECTORIES
+
+data/
+output/
+examples/images_en/
+examples/images_ru/
+output_example/*.csv
+output_example/*.json
+output_example/*.jsonl
+
+
+# BACKUP / TEMP FILES
+
+*.log
+*.bak
+*.tmp
+*.parquet
+*.jsonl
+*.csv
+

@@ -1,0 +1,5 @@
+{
+  "records_total": 6,
+  "languages": {"en": 3, "ru": 3},
+  "fields": ["id", "name", "description", "location", "category", "ner", "language", "image"]
+}

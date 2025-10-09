@@ -1,0 +1,6 @@
+{"id": "attraction_0001", "name": "Narikala Fortress", "description": "An ancient fortress overlooking Tbilisi", "location": "Georgia", "category": "fortress", "ner": "Tbilisi", "language": "en", "image": "narikala.jpg"}
+{"id": "attraction_0002", "name": "Batumi Boulevard", "description": "A seaside park stretching along the Black Sea coast", "location": "Batumi", "category": "park", "ner": "Batumi", "language": "en", "image": "batumi_boulevard.jpg"}
+{"id": "attraction_0003", "name": "Gergeti Trinity Church", "description": "A medieval church under Mount Kazbek", "location": "Stepantsminda", "category": "church", "ner": "Stepantsminda", "language": "en", "image": "gergeti.jpg"}
+{"id": "attraction_0004", "name": "Крепость Нарикала", "description": "Древняя крепость с видом на Тбилиси", "location": "Грузия", "category": "крепость", "ner": "Тбилиси", "language": "ru", "image": "narikala.jpg"}
+{"id": "attraction_0005", "name": "Батумский бульвар", "description": "Приморский парк вдоль Черного моря", "location": "Батуми", "category": "парк", "ner": "Батуми", "language": "ru", "image": "batumi_boulevard.jpg"}
+{"id": "attraction_0006", "name": "Церковь Святой Троицы в Гергети", "description": "Средневековая церковь у подножия Казбека", "location": "Степанцминда", "category": "церковь", "ner": "Степанцминда", "language": "ru", "image": "gergeti.jpg"}
