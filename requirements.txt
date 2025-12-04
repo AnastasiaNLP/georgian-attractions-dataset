@@ -1,5 +1,5 @@
-pandas
-datasets
-huggingface_hub
-Pillow
-tqdm
+# Core dependencies for Georgian Attractions Dataset
+datasets>=2.14.0
+pandas>=2.0.0
+Pillow>=10.0.0
+huggingface-hub>=0.19.0

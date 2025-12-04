@@ -1,36 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+build/
+dist/
+*.egg-info/
+.eggs/
 
-# PYTHON ENVIRONMENT & CACHE
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints
+
+# Data files (too large for git)
+dataset.csv
+photo_dataset/
+georgian_attractions_dataset/
+*.arrow
+*.parquet
+
+# Logs
+logs/
+*.log
+
+# Reports
+reports/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
 
 .venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+venv/
+env/
 
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
-# IDE CONFIGS
+# HuggingFace
+README.md.generated
 
-.idea/
-.vscode/
-
-
-# DATA & OUTPUT DIRECTORIES
-
-data/
-output/
-examples/images_en/
-examples/images_ru/
-output_example/*.csv
-output_example/*.json
-output_example/*.jsonl
-
-
-# BACKUP / TEMP FILES
-
-*.log
-*.bak
+# Temporary files
 *.tmp
-*.parquet
-*.jsonl
-*.csv
-
+*.bak
+*.cache
