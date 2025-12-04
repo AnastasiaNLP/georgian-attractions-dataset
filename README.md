@@ -10,15 +10,15 @@ The Georgian Attractions Dataset is a comprehensive bilingual collection featuri
 - **Bilingual descriptions** in Russian and English
 - **Rich metadata**: locations, categories, tags, and image attributions
 
-**🔗 View the dataset**: [AIAnastasia/georgian-attractions](https://huggingface.co/datasets/AIAnastasia/georgian-attractions)
+** View the dataset**: [AIAnastasia/georgian-attractions](https://huggingface.co/datasets/AIAnastasia/georgian-attractions)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/georgian-attractions-dataset.git
+git clone https://github.com/AnastasiaNLP/georgian-attractions-dataset.git
 cd georgian-attractions-dataset
 
 # Install dependencies
@@ -60,7 +60,7 @@ Or use command line:
 python src/upload_to_hub.py --repo-id YOUR_USERNAME/georgian-attractions
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 georgian-attractions-dataset/
@@ -88,7 +88,7 @@ georgian-attractions-dataset/
 └── LICENSE
 ```
 
-## 📝 Data Format
+##  Data Format
 
 ### Input Requirements
 
@@ -108,7 +108,7 @@ georgian-attractions-dataset/
 - Contains all referenced image files
 - Supported formats: JPG, JPEG, PNG
 
-## 🔧 Usage Examples
+##  Usage Examples
 
 ### Example 1: Basic Dataset Creation
 
@@ -165,7 +165,7 @@ if example['image']:
     print(f"Size: {example['image'].size}")
 ```
 
-## 🧪 Running Tests
+##  Running Tests
 
 ```bash
 # Install dev dependencies
@@ -181,7 +181,7 @@ pytest tests/test_dataset_creator.py -v
 pytest tests/ --cov=src --cov-report=html
 ```
 
-## 📊 Dataset Statistics
+##  Dataset Statistics
 
 - **Total Records**: 1,715
 - **With Images**: 1,522 (89%)
@@ -189,14 +189,14 @@ pytest tests/ --cov=src --cov-report=html
 - **Languages**: Russian (ru), English (en)
 - **Categories**: 20+ types of attractions
 
-## 🎯 Use Cases
+##  Use Cases
 
 - **Tourism Applications**: Travel guides, recommendation systems
 - **Computer Vision**: Image classification, object detection
 - **NLP**: Multilingual text processing, translation
 - **Research**: Cultural heritage, GIS studies
 
-## 📚 Documentation
+##  Documentation
 
 ### Main Classes
 
@@ -224,7 +224,7 @@ Class for uploading to HuggingFace Hub.
 - `upload_readme()` - Upload README
 - `process()` - Run complete upload pipeline
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please:
 
@@ -234,13 +234,11 @@ Contributions are welcome! Please:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## License
 
 **Dataset License**: CC-BY-4.0 (dataset metadata); individual images retain their original licenses as specified.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - All photographers and content contributors
 - HuggingFace for the datasets library
