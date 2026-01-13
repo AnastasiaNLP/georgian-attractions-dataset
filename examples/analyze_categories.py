@@ -24,10 +24,10 @@ def get_category_stats(dataset) -> Dict:
     for category, count in categories.items():
         category_records = [r for r in dataset if r['category'] == category]
 
-        # Count images
+        # count images
         with_images = sum(1 for r in category_records if r['image'] is not None)
 
-        # Count by language
+        # count by language
         languages = Counter(r['language'] for r in category_records)
 
         stats[category] = {
@@ -65,14 +65,14 @@ def get_language_stats(dataset) -> Dict:
 
 def analyze_locations(dataset) -> Dict:
     """Analyze geographic distribution."""
-    # Extract cities/regions from location field
+    # extract cities/regions from location field
     locations = Counter()
 
     for record in dataset:
         location = record.get('location', '')
         if location:
-            # Try to extract main city/region
-            # Format usually: "City, Region, Country" or variations
+            # try to extract main city/region
+            # format usually: "City, Region, Country" or variations
             parts = location.split(',')
             if parts:
                 main_location = parts[0].strip()
@@ -91,7 +91,7 @@ def analyze_tags(dataset) -> Dict:
     for record in dataset:
         tags = record.get('tags', '')
         if tags:
-            # Split by common separators
+            # split by common separators
             tag_list = re.split(r'[,;|]', tags)
             all_tags.extend([t.strip().lower() for t in tag_list if t.strip()])
 
@@ -110,7 +110,7 @@ def get_license_stats(dataset) -> Dict:
 
     stats = {}
     for license_type, count in licenses.items():
-        # Check if authors are specified for licenses that require attribution
+        # check if authors are specified for licenses that require attribution
         if 'CC' in license_type.upper() or 'BY' in license_type.upper():
             license_records = [r for r in dataset if r.get('license') == license_type]
             with_author = sum(1 for r in license_records if r.get('photo_author'))
@@ -127,14 +127,12 @@ def get_license_stats(dataset) -> Dict:
 
 def print_category_report(stats: Dict):
     """Print detailed category statistics."""
-    print("\n📊 CATEGORY STATISTICS")
-    print("=" * 70)
+    print("\n Category statistics")
 
-    # Sort by total count
+    # sort by total count
     sorted_categories = sorted(stats.items(), key=lambda x: x[1]['total'], reverse=True)
 
     print(f"\n{'Category':<30} {'Total':>8} {'Images':>8} {'Coverage':>10}")
-    print("-" * 70)
 
     for category, data in sorted_categories[:20]:
         print(f"{category:<30} {data['total']:>8} {data['with_images']:>8} {data['image_coverage']:>9.1f}%")
@@ -147,8 +145,7 @@ def print_category_report(stats: Dict):
 
 def print_language_report(stats: Dict):
     """Print language statistics."""
-    print("\n🌍 LANGUAGE STATISTICS")
-    print("=" * 70)
+    print("\nLanguage statistics")
 
     for lang, data in stats.items():
         print(f"\n{lang.upper()}:")
@@ -163,8 +160,7 @@ def print_language_report(stats: Dict):
 
 def print_location_report(stats: Dict):
     """Print location statistics."""
-    print("\n📍 LOCATION STATISTICS")
-    print("=" * 70)
+    print("\nLocation statistics")
 
     print(f"\nTotal unique locations: {stats['total_unique_locations']}")
     print(f"\nTop 15 locations:")
@@ -175,9 +171,7 @@ def print_location_report(stats: Dict):
 
 def print_tags_report(stats: Dict):
     """Print tags statistics."""
-    print("\n🏷️  TAG STATISTICS")
-    print("=" * 70)
-
+    print("\nTags statistics")
     print(f"\nTotal tags used: {stats['total_tags']}")
     print(f"Unique tags: {stats['unique_tags']}")
     print(f"\nTop 20 most common tags:")
@@ -188,9 +182,8 @@ def print_tags_report(stats: Dict):
 
 def print_license_report(stats: Dict):
     """Print license statistics."""
-    print("\n⚖️  LICENSE STATISTICS")
-    print("=" * 70)
-
+    print("\nLicense statistics")
+    
     for license_type, data in stats.items():
         print(f"\n{license_type}:")
         print(f"  Count: {data['count']}")
@@ -198,23 +191,20 @@ def print_license_report(stats: Dict):
             print(f"  With author: {data['with_author']}")
             print(f"  Without author: {data['without_author']}")
             if data['without_author'] > 0:
-                print(f"  ⚠️  Warning: {data['without_author']} records missing author attribution")
+                print(f" Warning: {data['without_author']} records missing author attribution")
 
 
 def main():
-    print("=" * 70)
-    print("  GEORGIAN ATTRACTIONS DATASET - COMPREHENSIVE ANALYSIS")
-    print("=" * 70)
+    print("Georgian attractions dataset - comprehensive analysis")
 
-    # Load dataset
-    print("\n📥 Loading dataset from HuggingFace Hub...")
+    # load dataset
+    print("\n Loading dataset from HuggingFace Hub...")
     dataset = load_dataset('AIAnastasia/georgian-attractions', split='train')
-    print(f"✅ Loaded {len(dataset)} records")
+    print(f"Loaded {len(dataset)} records")
 
-    # Overall statistics
-    print("\n📈 OVERALL STATISTICS")
-    print("=" * 70)
-
+    # overall statistics
+    print("Overall statistics"))
+    
     total_records = len(dataset)
     with_images = sum(1 for r in dataset if r['image'] is not None)
     without_images = total_records - with_images
@@ -223,43 +213,39 @@ def main():
     print(f"Records with images: {with_images} ({with_images/total_records*100:.1f}%)")
     print(f"Records without images: {without_images} ({without_images/total_records*100:.1f}%)")
 
-    # Category analysis
-    print("\n🔄 Analyzing categories...")
+    # category analysis
+    print("\n Analyzing categories...")
     category_stats = get_category_stats(dataset)
     print_category_report(category_stats)
 
-    # Language analysis
-    print("\n🔄 Analyzing languages...")
+    # language analysis
+    print("\n Analyzing languages...")
     language_stats = get_language_stats(dataset)
     print_language_report(language_stats)
 
-    # Location analysis
-    print("\n🔄 Analyzing locations...")
+    # location analysis
+    print("\n Analyzing locations...")
     location_stats = analyze_locations(dataset)
     print_location_report(location_stats)
 
-    # Tags analysis
-    print("\n🔄 Analyzing tags...")
+    # tags analysis
+    print("\n Analyzing tags...")
     tag_stats = analyze_tags(dataset)
     print_tags_report(tag_stats)
 
-    # License analysis
+    # license analysis
     print("\n Analyzing licenses...")
     license_stats = get_license_stats(dataset)
     print_license_report(license_stats)
 
-    # Summary
-    print("\n" + "=" * 70)
-    print("  SUMMARY")
-    print("=" * 70)
+    # summary
+    print("Summary")
     print(f"\n Dataset contains {total_records} attractions")
     print(f" {len(category_stats)} unique categories")
     print(f" {len(language_stats)} languages (Russian and English)")
     print(f" {location_stats['total_unique_locations']} unique locations")
     print(f" {tag_stats['unique_tags']} unique tags")
     print(f" {with_images} images ({with_images/total_records*100:.1f}% coverage)")
-
-    print("\n" + "=" * 70)
 
 
 if __name__ == '__main__':
