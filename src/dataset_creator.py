@@ -44,9 +44,9 @@ class GeorgianAttractionsDataset:
         Returns:
             Loaded DataFrame
         """
-        print(f"📊 Loading CSV from: {self.csv_path}")
+        print(f"Loading CSV from: {self.csv_path}")
         self.df = pd.read_csv(self.csv_path)
-        print(f"✅ Loaded {len(self.df)} records")
+        print(f"Loaded {len(self.df)} records")
         print(f"Columns: {list(self.df.columns)}")
         return self.df
 
@@ -64,10 +64,10 @@ class GeorgianAttractionsDataset:
         """
         print("\n Cleaning data...")
 
-        # Remove completely empty rows
+        # remove completely empty rows
         df_cleaned = self.df.dropna(how='all').copy()
 
-        # Reset index and create new IDs
+        # reset index and create new IDs
         df_cleaned.reset_index(drop=True, inplace=True)
         df_cleaned['id'] = range(1, len(df_cleaned) + 1)
 
@@ -99,7 +99,7 @@ class GeorgianAttractionsDataset:
         missing_photos = []
         existing_photos = []
 
-        # Check each photo referenced in CSV
+        # check each photo referenced in CSV
         for idx, row in self.df.iterrows():
             photo_name = row['photo_name']
 
@@ -135,7 +135,7 @@ class GeorgianAttractionsDataset:
         """
         print("\nCreating HuggingFace dataset...")
 
-        # Prepare dataset records
+        # prepare dataset records
         dataset_records = []
         images_found = 0
         images_missing = 0
@@ -155,7 +155,7 @@ class GeorgianAttractionsDataset:
                 'photo_author': str(row['photo_author']) if pd.notna(row['photo_author']) else ''
             }
 
-            # Add image path if exists
+            # ddd image path if exists
             if pd.notna(row['photo_name']) and row['photo_name'] and row['photo_name'] != 'nan':
                 photo_path = os.path.join(self.photos_folder, row['photo_name'])
                 if os.path.exists(photo_path):
@@ -169,7 +169,7 @@ class GeorgianAttractionsDataset:
 
             dataset_records.append(record)
 
-            # Progress indicator
+            # progress indicator
             if (idx + 1) % 500 == 0:
                 print(f"  Processed {idx + 1}/{len(self.df)} records")
 
@@ -177,7 +177,7 @@ class GeorgianAttractionsDataset:
         print(f"   With images: {images_found}")
         print(f"   Without images: {images_missing}")
 
-        # Define dataset features
+        # define dataset features
         features = Features({
             'id': Value('int64'),
             'name': Value('string'),
@@ -192,7 +192,7 @@ class GeorgianAttractionsDataset:
             'image': HFImage()
         })
 
-        # Create dataset
+        # create dataset
         print("\nCreating HuggingFace Dataset object...")
         self.dataset = Dataset.from_list(dataset_records, features=features)
 
@@ -212,22 +212,22 @@ class GeorgianAttractionsDataset:
 
         print(f"\n Saving dataset to: {output_path}")
 
-        # Create output directory if needed
+        # create output directory if needed
         os.makedirs(output_path, exist_ok=True)
 
-        # Save dataset
+        # save dataset
         self.dataset.save_to_disk(output_path)
 
         print(" Dataset saved successfully!")
 
-        # Calculate size
+        # calculate size
         total_size = sum(
             f.stat().st_size
             for f in Path(output_path).rglob('*')
             if f.is_file()
         ) / (1024 * 1024)
 
-        print(f"📊 Dataset size: {total_size:.2f} MB")
+        print(f"Dataset size: {total_size:.2f} MB")
 
     def get_statistics(self) -> Dict:
         """
@@ -244,7 +244,7 @@ class GeorgianAttractionsDataset:
             if self.dataset[i]['image'] is not None
         )
 
-        # Language distribution
+        # language distribution
         from collections import Counter
         languages = Counter(self.dataset['language'])
 
@@ -267,10 +267,8 @@ class GeorgianAttractionsDataset:
         Returns:
             Created HuggingFace Dataset
         """
-        print("="*70)
         print("  Georgian Attractions Dataset Creator")
-        print("="*70)
-
+    
         # Step 1: Load CSV
         self.load_csv()
 
@@ -286,20 +284,18 @@ class GeorgianAttractionsDataset:
         # Step 5: Save dataset
         self.save_dataset(output_path)
 
-        # Show statistics
-        print("\n" + "="*70)
-        print("  DATASET STATISTICS")
-        print("="*70)
+        # show statistics
+        print("  Dataset statistics")
         stats = self.get_statistics()
         for key, value in stats.items():
             print(f"{key}: {value}")
 
-        print("\n✨ Dataset creation complete!")
+        print("\n Dataset creation complete!")
 
         return self.dataset
 
 
-# Example usage
+# example usage
 if __name__ == "__main__":
     # Create dataset
     creator = GeorgianAttractionsDataset(
