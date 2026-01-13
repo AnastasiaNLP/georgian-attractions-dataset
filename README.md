@@ -2,7 +2,7 @@
 
 Tools for creating a bilingual HuggingFace dataset of Georgian tourist attractions with images and descriptions in Russian and English.
 
-## 📊 Dataset
+## Dataset
 
 The Georgian Attractions Dataset is a comprehensive bilingual collection featuring:
 - **1,715 records** of tourist attractions across Georgia
