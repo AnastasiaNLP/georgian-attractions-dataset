@@ -37,7 +37,7 @@ def export_to_csv(
     Returns:
         Path to saved CSV file
     """
-    # Filter dataset if needed
+    # filter dataset if needed
     filtered_dataset = dataset
 
     if filter_language:
@@ -46,29 +46,29 @@ def export_to_csv(
     if filter_category:
         filtered_dataset = filtered_dataset.filter(lambda x: x['category'] == filter_category)
 
-    # Prepare data for export
+    # prepare data for export
     data_to_export = []
 
     for record in filtered_dataset:
         row = {}
 
-        # Default columns (all text fields)
+        # default columns (all text fields)
         if columns is None:
             columns = ['id', 'name', 'description', 'category', 'location',
                       'tags', 'language', 'photo_name', 'license', 'photo_author']
 
-        # Extract specified columns
+        # extract specified columns
         for col in columns:
             if col in record:
                 row[col] = record[col]
 
-        # Add image information if requested
+        # add image information if requested
         if include_image_paths:
             row['has_image'] = 'Yes' if record.get('image') is not None else 'No'
 
         data_to_export.append(row)
 
-    # Create DataFrame and save
+    # create DataFrame and save
     df = pd.DataFrame(data_to_export)
     df.to_csv(output_path, index=False, encoding='utf-8')
 
@@ -87,7 +87,7 @@ def export_statistics_csv(dataset, output_path: str):
 
     stats_data = []
 
-    # Overall statistics
+    # overall statistics
     total_records = len(dataset)
     with_images = sum(1 for r in dataset if r['image'] is not None)
 
@@ -111,7 +111,7 @@ def export_statistics_csv(dataset, output_path: str):
         'Value': f"{with_images/total_records*100:.2f}"
     })
 
-    # Language distribution
+    # language distribution
     languages = Counter(r['language'] for r in dataset)
     for lang, count in languages.items():
         stats_data.append({
@@ -119,7 +119,7 @@ def export_statistics_csv(dataset, output_path: str):
             'Value': count
         })
 
-    # Top categories
+    # top categories
     categories = Counter(r['category'] for r in dataset)
     for cat, count in categories.most_common(10):
         stats_data.append({
@@ -127,7 +127,7 @@ def export_statistics_csv(dataset, output_path: str):
             'Value': count
         })
 
-    # Save to CSV
+    # save to CSV
     df = pd.DataFrame(stats_data)
     df.to_csv(output_path, index=False, encoding='utf-8')
 
@@ -144,20 +144,20 @@ def export_by_category(dataset, output_dir: str):
     """
     from collections import Counter
 
-    # Create output directory
+    # create output directory
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    # Get all categories
+    # get all categories
     categories = Counter(r['category'] for r in dataset)
 
     print(f"Exporting {len(categories)} categories to separate files...")
 
     for category in categories.keys():
-        # Filter by category
+        # filter by category
         category_data = [r for r in dataset if r['category'] == category]
 
-        # Prepare data
+        # prepare data
         data_to_export = []
         for record in category_data:
             row = {
@@ -175,14 +175,14 @@ def export_by_category(dataset, output_dir: str):
             }
             data_to_export.append(row)
 
-        # Save to CSV
+        # save to CSV
         safe_category_name = category.replace('/', '_').replace('\\', '_')
         csv_path = output_path / f"{safe_category_name}.csv"
 
         df = pd.DataFrame(data_to_export)
         df.to_csv(csv_path, index=False, encoding='utf-8')
 
-        print(f"  ✅ {category}: {len(category_data)} records → {csv_path.name}")
+        print(f" Save {category}: {len(category_data)} records -> {csv_path.name}")
 
     return output_dir
 
@@ -195,11 +195,11 @@ def export_split_by_language(dataset, output_dir: str):
         dataset: HuggingFace Dataset object
         output_dir: Directory to save language CSV files
     """
-    # Create output directory
+    # create output directory
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    # Get unique languages
+    # get unique languages
     languages = set(r['language'] for r in dataset)
 
     print(f"Exporting {len(languages)} languages to separate files...")
@@ -214,72 +214,60 @@ def export_split_by_language(dataset, output_dir: str):
         )
 
         lang_count = len([r for r in dataset if r['language'] == language])
-        print(f"  ✅ {language}: {lang_count} records → {csv_path.name}")
+        print(f" Save {language}: {lang_count} records -> {csv_path.name}")
 
     return output_dir
 
 
 def main():
-    print("=" * 70)
-    print("  EXPORT TO CSV EXAMPLES")
-    print("=" * 70)
+    print("Export to csv examples")
 
-    # Load dataset
-    print("\n📥 Loading dataset from HuggingFace Hub...")
+    # load dataset
+    print("\n Loading dataset from HuggingFace Hub...")
     dataset = load_dataset('AIAnastasia/georgian-attractions', split='train')
-    print(f"✅ Loaded {len(dataset)} records")
+    print(f"Loaded {len(dataset)} records")
 
-    # Create output directory
+    # create output directory
     output_dir = Path('./exported_csv')
     output_dir.mkdir(exist_ok=True)
 
     # Example 1: Export full dataset
-    print("\n" + "=" * 70)
     print("Example 1: Export full dataset to CSV")
-    print("=" * 70)
 
     full_csv = output_dir / 'georgian_attractions_full.csv'
     export_to_csv(dataset, str(full_csv), include_image_paths=True)
-    print(f"✅ Exported to: {full_csv}")
+    print(f"Exported to: {full_csv}")
     print(f"   Size: {full_csv.stat().st_size / 1024:.2f} KB")
 
     # Example 2: Export only Russian records
-    print("\n" + "=" * 70)
     print("Example 2: Export only Russian language records")
-    print("=" * 70)
 
     ru_csv = output_dir / 'georgian_attractions_ru.csv'
     export_to_csv(dataset, str(ru_csv), filter_language='ru', include_image_paths=True)
 
     ru_count = len([r for r in dataset if r['language'] == 'ru'])
-    print(f"✅ Exported {ru_count} Russian records to: {ru_csv}")
+    print(f"Exported {ru_count} Russian records to: {ru_csv}")
 
-    # Example 3: Export only English records
-    print("\n" + "=" * 70)
+    #Example 3: Export only English records
     print("Example 3: Export only English language records")
-    print("=" * 70)
 
     en_csv = output_dir / 'georgian_attractions_en.csv'
     export_to_csv(dataset, str(en_csv), filter_language='en', include_image_paths=True)
 
     en_count = len([r for r in dataset if r['language'] == 'en'])
-    print(f"✅ Exported {en_count} English records to: {en_csv}")
+    print(f"Exported {en_count} English records to: {en_csv}")
 
     # Example 4: Export specific category
-    print("\n" + "=" * 70)
     print("Example 4: Export only museums")
-    print("=" * 70)
 
     museums_csv = output_dir / 'museums.csv'
     export_to_csv(dataset, str(museums_csv), filter_category='Музей')
 
     museums_count = len([r for r in dataset if r['category'] == 'Музей'])
-    print(f"✅ Exported {museums_count} museums to: {museums_csv}")
+    print(f"Exported {museums_count} museums to: {museums_csv}")
 
     # Example 5: Export with custom columns
-    print("\n" + "=" * 70)
     print("Example 5: Export with custom columns (minimal info)")
-    print("=" * 70)
 
     minimal_csv = output_dir / 'georgian_attractions_minimal.csv'
     export_to_csv(
@@ -288,29 +276,23 @@ def main():
         columns=['id', 'name', 'category', 'language'],
         include_image_paths=True
     )
-    print(f"✅ Exported minimal version to: {minimal_csv}")
+    print(f"Exported minimal version to: {minimal_csv}")
 
     # Example 6: Export statistics
-    print("\n" + "=" * 70)
     print("Example 6: Export dataset statistics")
-    print("=" * 70)
 
     stats_csv = output_dir / 'dataset_statistics.csv'
     export_statistics_csv(dataset, str(stats_csv))
-    print(f"✅ Statistics exported to: {stats_csv}")
+    print(f"Statistics exported to: {stats_csv}")
 
     # Example 7: Split by language
-    print("\n" + "=" * 70)
     print("Example 7: Export split by language")
-    print("=" * 70)
 
     language_dir = output_dir / 'by_language'
     export_split_by_language(dataset, str(language_dir))
 
     # Example 8: Split by category
-    print("\n" + "=" * 70)
     print("Example 8: Export split by category (first 5 categories)")
-    print("=" * 70)
 
     from collections import Counter
     categories = Counter(r['category'] for r in dataset)
@@ -326,10 +308,7 @@ def main():
         cat_count = len([r for r in dataset if r['category'] == category])
         print(f"   {category}: {cat_count} records")
 
-    # Summary
-    print("\n" + "=" * 70)
-    print("  EXPORT SUMMARY")
-    print("=" * 70)
+    # summary
     print(f"\n All files exported to: {output_dir.absolute()}")
     print(f"\nExported files:")
 
