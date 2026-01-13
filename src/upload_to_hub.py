@@ -187,13 +187,13 @@ class DatasetUploader:
 
         self.dataset = load_from_disk(self.dataset_path)
 
-        # Show statistics
+        # show statistics
         images_count = sum(
             1 for i in range(len(self.dataset))
             if self.dataset[i]['image'] is not None
         )
 
-        print(f"✅ Dataset loaded")
+        print(f" Dataset loaded")
         print(f"   Total records: {len(self.dataset)}")
         print(f"   With images: {images_count}")
         print(f"   Without images: {len(self.dataset) - images_count}")
@@ -210,7 +210,7 @@ class DatasetUploader:
 
         print(f"\nUploading dataset to: {self.repo_id}")
         print(f"   Private: {private}")
-        print("   ⏳ This may take 15-30 minutes...")
+        print("    This may take 15-30 minutes...")
 
         images_count = sum(
             1 for i in range(len(self.dataset))
@@ -231,15 +231,15 @@ class DatasetUploader:
         """Upload README to the dataset repository."""
         print("\n Uploading README...")
 
-        # Generate README
+        # generate README
         readme_content = create_readme(self.repo_id)
 
-        # Save locally
+        # save locally
         readme_path = Path("README.md")
         with open(readme_path, 'w', encoding='utf-8') as f:
             f.write(readme_content)
 
-        # Upload to Hub
+        #upload to Hub
         api = HfApi()
         api.upload_file(
             path_or_fileobj=str(readme_path),
@@ -251,19 +251,17 @@ class DatasetUploader:
 
         print(" README uploaded")
 
-        # Clean up local file
+        # clean up local file
         readme_path.unlink()
 
     def process(self, private: bool = False) -> None:
         """
-        Complete upload pipeline: authenticate → load → upload → README.
+        Complete upload pipeline: authenticate -> load -> upload -> README.
 
         Args:
             private: Whether to make the dataset private
         """
-        print("="*70)
         print("  Georgian Attractions Dataset Upload")
-        print("="*70)
 
         # Step 1: Authenticate
         self.authenticate()
@@ -277,9 +275,7 @@ class DatasetUploader:
         # Step 4: Upload README
         self.upload_readme()
 
-        print("\n" + "="*70)
-        print("  UPLOAD COMPLETE")
-        print("="*70)
+        print("  Upload complete")
         print(f" Dataset URL: https://huggingface.co/datasets/{self.repo_id}")
         print("\n Wait 10-30 minutes for the dataset viewer to process images")
         print(" Upload complete!")
