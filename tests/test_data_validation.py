@@ -14,7 +14,7 @@ import tempfile
 from pathlib import Path
 import sys
 
-# Add src to path
+# add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 
 from dataset_creator import GeorgianAttractionsDataset
@@ -30,7 +30,7 @@ class TestDataValidation:
             'tags', 'language', 'photo_name', 'license', 'photo_author'
         ]
 
-        # Create CSV with all columns
+        # create CSV with all columns
         data = {col: [None] for col in required_columns}
         df = pd.DataFrame(data)
 
@@ -74,7 +74,7 @@ class TestDataValidation:
         }
         df = pd.DataFrame(data)
 
-        # All non-null languages should be valid
+        # all non-null languages should be valid
         languages = df['language'].dropna().unique()
         for lang in languages:
             assert lang in valid_languages, f"Invalid language: {lang}"
@@ -95,7 +95,7 @@ class TestDataValidation:
         }
         df = pd.DataFrame(data)
 
-        # Should have one completely empty row
+        # should have one completely empty row
         empty_rows = df.isna().all(axis=1).sum()
         assert empty_rows == 1
 
@@ -115,7 +115,7 @@ class TestDataValidation:
         }
         df = pd.DataFrame(data)
 
-        # Check for duplicates
+        # check for duplicates
         duplicates = df['id'].duplicated().sum()
         assert duplicates > 0, "Should detect duplicate IDs"
 
@@ -145,7 +145,7 @@ class TestDataValidation:
         }
         df = pd.DataFrame(data)
 
-        # Check photo extensions
+        # check photo extensions
         for photo_name in df['photo_name'].dropna():
             ext = Path(photo_name).suffix.lower()
             assert ext in valid_extensions, f"Invalid photo extension: {ext}"
@@ -166,7 +166,7 @@ class TestDataValidation:
         }
         df = pd.DataFrame(data)
 
-        # After dropping empty rows, all names should be non-null
+        # after dropping empty rows, all names should be non-null
         df_clean = df.dropna(how='all')
 
         assert df_clean['name'].notna().all(), "All valid records should have names"
@@ -176,7 +176,7 @@ class TestDataValidation:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpdir = Path(tmpdir)
 
-            # Create sample CSV
+            # create sample CSV
             data = {
                 'id': [1, 2],
                 'name': ['A', 'B'],
@@ -197,7 +197,7 @@ class TestDataValidation:
             photos_folder = tmpdir / "photos"
             photos_folder.mkdir()
 
-            # Create dataset
+            # create dataset
             creator = GeorgianAttractionsDataset(
                 csv_path=str(csv_path),
                 photos_folder=str(photos_folder)
@@ -206,7 +206,7 @@ class TestDataValidation:
             creator.load_csv()
             creator.clean_data()
 
-            # Check data types after cleaning
+            # check data types after cleaning
             assert creator.df['id'].dtype in ['int64', 'int32']
             assert creator.df['name'].dtype == 'object'  # string type
 
