@@ -10,10 +10,8 @@ from datasets import load_from_disk, load_dataset
 
 def display_local_dataset():
     """Load and display from local disk."""
-
-    print("="*70)
+    
     print("  Loading from Local Disk")
-    print("="*70)
 
     dataset_path = "georgian_attractions_dataset"
 
@@ -22,14 +20,12 @@ def display_local_dataset():
 
     print(f" Loaded {len(dataset)} records")
 
-    # Count images
+    # count images
     images_count = sum(1 for i in range(len(dataset)) if dataset[i]['image'] is not None)
     print(f" Records with images: {images_count}")
 
-    # Display examples with images
-    print("\n" + "="*70)
+    # display examples with images
     print("  Example Attractions (with images)")
-    print("="*70)
 
     shown = 0
     for i in range(len(dataset)):
@@ -44,7 +40,7 @@ def display_local_dataset():
             print(f"   License: {example['license']}")
             print(f"   Author: {example['photo_author']}")
 
-            # Display image
+            # display image
             img = example['image']
             print(f"   Image size: {img.size}")
             print(f"   Format: {img.format}")
@@ -60,9 +56,7 @@ def display_local_dataset():
 def display_from_hub(repo_id: str = "AIAnastasia/georgian-attractions"):
     """Load and display from HuggingFace Hub."""
 
-    print("\n" + "="*70)
     print("  Loading from HuggingFace Hub")
-    print("="*70)
 
     print(f"\nLoading dataset from: {repo_id}")
 
@@ -72,7 +66,7 @@ def display_from_hub(repo_id: str = "AIAnastasia/georgian-attractions"):
 
         print(f" Loaded {len(train_data)} records")
 
-        # Show example
+        # show example
         example = train_data[0]
         print(f"\nExample:")
         print(f"  Name: {example['name']}")
@@ -90,14 +84,11 @@ def display_from_hub(repo_id: str = "AIAnastasia/georgian-attractions"):
 def filter_and_display():
     """Filter dataset and display specific attractions."""
 
-    print("\n" + "="*70)
     print("  Filter and Display")
-    print("="*70)
-
     dataset_path = "georgian_attractions_dataset"
     dataset = load_from_disk(dataset_path)
 
-    # Filter: National Parks with images
+    # filter: National Parks with images
     print("\nFiltering: National Parks with images")
 
     national_parks = dataset.filter(
@@ -131,7 +122,7 @@ def main():
     # Example 3: Filter and display
     filter_and_display()
 
-    print("\n✨ Done!")
+    print("\n Done!")
 
 
 if __name__ == "__main__":
