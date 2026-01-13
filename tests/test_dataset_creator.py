@@ -15,7 +15,7 @@ import tempfile
 from pathlib import Path
 import sys
 
-# Add src to path
+# add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 
 from dataset_creator import GeorgianAttractionsDataset
@@ -45,15 +45,15 @@ def temp_files(sample_csv_data):
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)
 
-        # Create CSV
+        # create CSV
         csv_path = tmpdir / "test_dataset.csv"
         sample_csv_data.to_csv(csv_path, index=False)
 
-        # Create photos folder with dummy images
+        # create photos folder with dummy images
         photos_folder = tmpdir / "photos"
         photos_folder.mkdir()
 
-        # Create dummy image files
+        # create dummy image files
         (photos_folder / "photo1.jpg").touch()
         (photos_folder / "photo2.jpg").touch()
 
@@ -104,7 +104,7 @@ class TestGeorgianAttractionsDataset:
         creator.load_csv()
         df_cleaned = creator.clean_data()
 
-        # Should remove the row with all NaN values
+        # should remove the row with all NaN values
         assert len(df_cleaned) == 3  # One row should be removed
 
         # IDs should be reindexed from 1 to N
@@ -122,9 +122,9 @@ class TestGeorgianAttractionsDataset:
 
         found_count, missing = creator.verify_images()
 
-        # We have 2 image files, 1 row with no photo_name
+        # we have 2 image files, 1 row with no photo_name
         assert found_count == 2
-        assert len(missing) == 1  # One row without image
+        assert len(missing) == 1  # one row without image
 
     def test_verify_images_missing_folder(self, temp_files):
         """Test image verification with missing photos folder."""
@@ -177,7 +177,7 @@ class TestGeorgianAttractionsDataset:
         output_path = temp_files['tmpdir'] / "output_dataset"
         creator.save_dataset(str(output_path))
 
-        # Check that dataset folder was created
+        # check that dataset folder was created
         assert output_path.exists()
         assert (output_path / "dataset_info.json").exists()
 
@@ -191,14 +191,14 @@ class TestGeorgianAttractionsDataset:
         output_path = temp_files['tmpdir'] / "output_dataset"
         dataset = creator.process(str(output_path))
 
-        # Check dataset was created
+        # check dataset was created
         assert dataset is not None
         assert len(dataset) == 3
 
-        # Check output folder exists
+        # check output folder exists
         assert output_path.exists()
 
-        # Check dataset has correct fields
+        # check dataset has correct fields
         assert 'id' in dataset.column_names
         assert 'name' in dataset.column_names
         assert 'image' in dataset.column_names
