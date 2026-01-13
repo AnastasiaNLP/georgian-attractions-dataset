@@ -19,7 +19,7 @@ def parse_tags(tag_string: str) -> Set[str]:
     if not tag_string:
         return set()
 
-    # Split by common separators
+    # split by common separators
     tags = re.split(r'[,;|]', tag_string)
     return {tag.strip().lower() for tag in tags if tag.strip()}
 
@@ -139,7 +139,7 @@ def recommend_by_tags(dataset, example_id: int, top_n: int = 5):
     Returns:
         List of recommended records
     """
-    # Find the example record
+    # find the example record
     example = None
     for record in dataset:
         if record['id'] == example_id:
@@ -154,7 +154,7 @@ def recommend_by_tags(dataset, example_id: int, top_n: int = 5):
     if not example_tags:
         return []
 
-    # Calculate similarity scores for all other records
+    # calculate similarity scores for all other records
     similarities = []
 
     for record in dataset:
@@ -166,7 +166,7 @@ def recommend_by_tags(dataset, example_id: int, top_n: int = 5):
         if not record_tags:
             continue
 
-        # Jaccard similarity: intersection / union
+        # jaccard similarity: intersection / union
         intersection = len(example_tags & record_tags)
         union = len(example_tags | record_tags)
 
@@ -174,25 +174,21 @@ def recommend_by_tags(dataset, example_id: int, top_n: int = 5):
             similarity = intersection / union
             similarities.append((record, similarity))
 
-    # Sort by similarity and return top N
+    # sort by similarity and return top N
     similarities.sort(key=lambda x: x[1], reverse=True)
     return [record for record, _ in similarities[:top_n]]
 
 
 def main():
-    print("=" * 70)
-    print("  SEARCH BY TAGS EXAMPLES")
-    print("=" * 70)
+    print("Search by tags examples")
 
-    # Load dataset
-    print("\n📥 Loading dataset from HuggingFace Hub...")
+    # load dataset
+    print("\n Loading dataset from HuggingFace Hub...")
     dataset = load_dataset('AIAnastasia/georgian-attractions', split='train')
-    print(f"✅ Loaded {len(dataset)} records")
+    print(f" Loaded {len(dataset)} records")
 
     # Example 1: Get all tags
-    print("\n" + "=" * 70)
     print("Example 1: Most common tags")
-    print("=" * 70)
 
     all_tags = get_all_tags(dataset)
     print(f"\nTotal unique tags: {len(all_tags)}")
@@ -201,10 +197,7 @@ def main():
     for tag, count in all_tags.most_common(20):
         print(f"  • {tag}: {count}")
 
-    # Example 2: Search by single tag
-    print("\n" + "=" * 70)
     print("Example 2: Find attractions tagged with 'unesco'")
-    print("=" * 70)
 
     unesco_sites = search_by_tag(dataset, 'unesco', exact_match=False)
     print(f"Found {len(unesco_sites)} UNESCO-related attractions")
@@ -217,9 +210,7 @@ def main():
             print(f"   Tags: {record['tags'][:80]}...")
 
     # Example 3: Search with AND logic
-    print("\n" + "=" * 70)
     print("Example 3: Find attractions with BOTH 'church' AND 'medieval' tags")
-    print("=" * 70)
 
     medieval_churches = search_by_tags_and(dataset, ['church', 'medieval'])
     print(f"Found {len(medieval_churches)} medieval churches")
@@ -230,9 +221,8 @@ def main():
             print(f"  • {record['name']} ({record['language']})")
 
     # Example 4: Search with OR logic
-    print("\n" + "=" * 70)
+    
     print("Example 4: Find attractions with 'fortress' OR 'castle' OR 'fortification'")
-    print("=" * 70)
 
     fortifications = search_by_tags_or(dataset, ['fortress', 'castle', 'fortification'])
     print(f"Found {len(fortifications)} fortifications")
@@ -244,9 +234,7 @@ def main():
             print(f"   Tags: {record['tags'][:60]}...")
 
     # Example 5: Find related tags
-    print("\n" + "=" * 70)
     print("Example 5: Find tags related to 'church'")
-    print("=" * 70)
 
     related = find_related_tags(dataset, 'church', top_n=15)
     print(f"\nTags that often appear with 'church':")
@@ -255,11 +243,9 @@ def main():
         print(f"  • {tag}: appears together {count} times")
 
     # Example 6: Tag-based recommendations
-    print("\n" + "=" * 70)
     print("Example 6: Recommend similar attractions based on tags")
-    print("=" * 70)
 
-    # Find a record with tags
+    # find a record with tags
     example_record = None
     for record in dataset:
         if record['tags'] and len(parse_tags(record['tags'])) >= 3:
@@ -279,9 +265,7 @@ def main():
             print(f"   Tags: {rec['tags'][:60]}...")
 
     # Example 7: Category-specific tag analysis
-    print("\n" + "=" * 70)
     print("Example 7: Most common tags for museums")
-    print("=" * 70)
 
     museums = [r for r in dataset if r['category'] == 'Музей' or r['category'] == 'Museum']
     museum_tags = Counter()
