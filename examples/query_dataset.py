@@ -38,31 +38,31 @@ def filter_dataset(
     """
 
     def filter_fn(example):
-        # Category filter
+        # category filter
         if category and example['category'] != category:
             return False
 
-        # Language filter
+        # language filter
         if language and example['language'] != language:
             return False
 
-        # Image filter
+        # image filter
         if has_image is not None:
             has_img = example['image'] is not None
             if has_image != has_img:
                 return False
 
-        # Location filter
+        # location filter
         if location_contains:
             if not example['location'] or location_contains.lower() not in example['location'].lower():
                 return False
 
-        # Name filter
+        # name filter
         if name_contains:
             if not example['name'] or name_contains.lower() not in example['name'].lower():
                 return False
 
-        # Description filter
+        # description filter
         if description_contains:
             if not example['description'] or description_contains.lower() not in example['description'].lower():
                 return False
@@ -104,19 +104,15 @@ def get_unique_values(dataset, field: str):
 
 
 def main():
-    print("=" * 70)
-    print("  QUERY DATASET EXAMPLES")
-    print("=" * 70)
+    print("Query dataset examples")
 
-    # Load dataset
-    print("\n📥 Loading dataset from HuggingFace Hub...")
+    # load dataset
+    print("\n Loading dataset from HuggingFace Hub...")
     dataset = load_dataset('AIAnastasia/georgian-attractions', split='train')
-    print(f"✅ Loaded {len(dataset)} records")
+    print(f"Loaded {len(dataset)} records")
 
     # Example 1: Filter by category
-    print("\n" + "=" * 70)
     print("Example 1: Find all museums")
-    print("=" * 70)
 
     museums = filter_dataset(dataset, category='Музей')
     print(f"Found {len(museums)} museums")
@@ -129,25 +125,19 @@ def main():
             print(f"   Location: {record['location'][:60]}...")
 
     # Example 2: Filter by language and image presence
-    print("\n" + "=" * 70)
     print("Example 2: English records with images")
-    print("=" * 70)
 
     en_with_images = filter_dataset(dataset, language='en', has_image=True)
     print(f"Found {len(en_with_images)} English records with images")
 
     # Example 3: Search by location
-    print("\n" + "=" * 70)
     print("Example 3: Attractions in Tbilisi")
-    print("=" * 70)
 
     tbilisi = filter_dataset(dataset, location_contains='Tbilisi')
     print(f"Found {len(tbilisi)} attractions in Tbilisi")
 
     # Example 4: Complex filter
-    print("\n" + "=" * 70)
     print("Example 4: Russian museums in Tbilisi with images")
-    print("=" * 70)
 
     complex_filter = filter_dataset(
         dataset,
@@ -166,10 +156,8 @@ def main():
             print(f"   Tags: {record['tags'][:50]}...")
 
     # Example 5: Keyword search
-    print("\n" + "=" * 70)
     print("Example 5: Search for 'church' or 'cathedral'")
-    print("=" * 70)
-
+    
     churches = search_by_keywords(dataset, ['church', 'cathedral', 'храм', 'собор'])
     print(f"Found {len(churches)} records")
 
@@ -181,9 +169,7 @@ def main():
             print(f"   Language: {record['language']}")
 
     # Example 6: Get unique categories
-    print("\n" + "=" * 70)
     print("Example 6: All unique categories")
-    print("=" * 70)
 
     categories = get_unique_values(dataset, 'category')
     print(f"Found {len(categories)} unique categories:")
@@ -194,9 +180,7 @@ def main():
         print(f"  ... and {len(categories) - 15} more categories")
 
     # Example 7: Search in name only
-    print("\n" + "=" * 70)
     print("Example 7: Find attractions with 'National' in name")
-    print("=" * 70)
 
     national = filter_dataset(dataset, name_contains='National')
     print(f"Found {len(national)} attractions")
