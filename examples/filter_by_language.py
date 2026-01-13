@@ -11,12 +11,9 @@ from collections import Counter
 
 def main():
     """Filter and analyze dataset by language."""
-
-    print("="*70)
     print("  Example: Filter by Language")
-    print("="*70)
 
-    # Load dataset
+    # load dataset
     dataset_path = "georgian_attractions_dataset"
 
     print(f"\nLoading dataset from: {dataset_path}")
@@ -24,10 +21,8 @@ def main():
 
     print(f" Loaded {len(dataset)} records")
 
-    # Language distribution
-    print("\n" + "="*70)
+    # language distribution
     print("  Language Distribution")
-    print("="*70)
 
     languages = Counter(dataset['language'])
 
@@ -35,15 +30,13 @@ def main():
         percentage = (count / len(dataset)) * 100
         print(f"{lang}: {count} records ({percentage:.1f}%)")
 
-    # Filter by Russian
-    print("\n" + "="*70)
+    # filter by Russian
     print("  Russian Attractions")
-    print("="*70)
 
     russian_data = dataset.filter(lambda x: x['language'] == 'ru')
     print(f"Found {len(russian_data)} Russian records")
 
-    # Show examples
+    # show examples
     print("\nExamples (first 3):")
     for i in range(min(3, len(russian_data))):
         example = russian_data[i]
@@ -51,15 +44,13 @@ def main():
         print(f"   Category: {example['category']}")
         print(f"   Location: {example['location'][:50]}...")
 
-    # Filter by English
-    print("\n" + "="*70)
+    # filter by English
     print("  English Attractions")
-    print("="*70)
-
+    
     english_data = dataset.filter(lambda x: x['language'] == 'en')
     print(f"Found {len(english_data)} English records")
 
-    # Show examples
+    # show examples
     print("\nExamples (first 3):")
     for i in range(min(3, len(english_data))):
         example = english_data[i]
@@ -67,10 +58,8 @@ def main():
         print(f"   Category: {example['category']}")
         print(f"   Location: {example['location'][:50]}...")
 
-    # Filter by category and language
-    print("\n" + "="*70)
+    # filter by category and language
     print("  Museums in Russian")
-    print("="*70)
 
     russian_museums = dataset.filter(
         lambda x: x['language'] == 'ru' and 'Музей' in x['category']
@@ -85,7 +74,7 @@ def main():
             print(f"\n{i+1}. {example['name']}")
             print(f"   Location: {example['location']}")
 
-    print("\n✨ Done!")
+    print("\n Done!")
 
 
 if __name__ == "__main__":
